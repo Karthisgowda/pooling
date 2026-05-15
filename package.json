@@ -1,6 +1,7 @@
 {
-  "name": "routing",
+  "name": "pooling",
   "version": "0.1.0",
+  "description": "A responsive cab sharing and ride pooling web app.",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.15.1",
