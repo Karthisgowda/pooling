@@ -1,39 +1,304 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./home";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
-import TripDetail from "./components/TripDetail";
-import { useContext } from "react";
-import { SocketContext } from "./context/socketContext";
-import Navbar from "./components/Navbar";
-import UserDetails from "./components/UserDetails";
-import CreateTrip from "./components/CreateTrip";
-import Created from "./components/Created";
+import { useEffect, useMemo, useState } from "react";
 import "./App.css";
-import Booked from "./components/Booked";
-import TripStatus from "./components/TripStatus";
+
+const STORAGE_KEY = "pooling-rides";
+
+const starterRides = [
+  {
+    id: "ride-1",
+    driver: "Karthik S Gowda",
+    source: "Mysuru",
+    destination: "Bengaluru",
+    date: "2026-05-18",
+    time: "08:30",
+    seats: 4,
+    bookedSeats: 1,
+    fare: 350,
+    vehicle: "Swift Dzire",
+    phone: "+91 98765 43210",
+    notes: "Pickup near city bus stand. One small bag per passenger.",
+    passengers: ["Asha"],
+  },
+  {
+    id: "ride-2",
+    driver: "Nikhil Rao",
+    source: "Mandya",
+    destination: "Bengaluru",
+    date: "2026-05-19",
+    time: "07:15",
+    seats: 3,
+    bookedSeats: 0,
+    fare: 220,
+    vehicle: "Hyundai i20",
+    phone: "+91 91234 56780",
+    notes: "Route through Kengeri. Flexible pickup on main road.",
+    passengers: [],
+  },
+  {
+    id: "ride-3",
+    driver: "Priya M",
+    source: "Bengaluru",
+    destination: "Tumakuru",
+    date: "2026-05-20",
+    time: "18:00",
+    seats: 4,
+    bookedSeats: 2,
+    fare: 180,
+    vehicle: "Tata Nexon",
+    phone: "+91 99887 76655",
+    notes: "Evening office commute. Drop near railway station.",
+    passengers: ["Rahul", "Meera"],
+  },
+];
+
+const emptyForm = {
+  driver: "",
+  source: "",
+  destination: "",
+  date: "",
+  time: "",
+  seats: "4",
+  fare: "",
+  vehicle: "",
+  phone: "",
+  notes: "",
+};
+
+function loadRides() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    return Array.isArray(saved) && saved.length > 0 ? saved : starterRides;
+  } catch {
+    return starterRides;
+  }
+}
+
+function formatDate(date) {
+  return new Intl.DateTimeFormat("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(`${date}T00:00:00`));
+}
+
 function App() {
-  const { LoggedIn } = useContext(SocketContext);
+  const [rides, setRides] = useState(loadRides);
+  const [query, setQuery] = useState("");
+  const [activeRideId, setActiveRideId] = useState(starterRides[0].id);
+  const [form, setForm] = useState(emptyForm);
+  const activeRide = rides.find((ride) => ride.id === activeRideId) ?? rides[0];
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(rides));
+  }, [rides]);
+
+  const filteredRides = useMemo(() => {
+    const search = query.trim().toLowerCase();
+
+    if (!search) {
+      return rides;
+    }
+
+    return rides.filter((ride) => {
+      return [ride.source, ride.destination, ride.driver, ride.vehicle]
+        .join(" ")
+        .toLowerCase()
+        .includes(search);
+    });
+  }, [query, rides]);
+
+  const stats = useMemo(() => {
+    const totalSeats = rides.reduce((sum, ride) => sum + Number(ride.seats), 0);
+    const bookedSeats = rides.reduce((sum, ride) => sum + Number(ride.bookedSeats), 0);
+
+    return {
+      rides: rides.length,
+      availableSeats: totalSeats - bookedSeats,
+      bookedSeats,
+    };
+  }, [rides]);
+
+  function updateForm(event) {
+    setForm((current) => ({
+      ...current,
+      [event.target.name]: event.target.value,
+    }));
+  }
+
+  function createRide(event) {
+    event.preventDefault();
+
+    const nextRide = {
+      ...form,
+      id: `ride-${Date.now()}`,
+      seats: Number(form.seats),
+      bookedSeats: 0,
+      fare: Number(form.fare),
+      passengers: [],
+    };
+
+    setRides((current) => [nextRide, ...current]);
+    setActiveRideId(nextRide.id);
+    setForm(emptyForm);
+  }
+
+  function bookSeat(rideId) {
+    setRides((current) =>
+      current.map((ride) => {
+        if (ride.id !== rideId || ride.bookedSeats >= ride.seats) {
+          return ride;
+        }
+
+        return {
+          ...ride,
+          bookedSeats: ride.bookedSeats + 1,
+          passengers: [...ride.passengers, "You"],
+        };
+      }),
+    );
+  }
+
+  function cancelSeat(rideId) {
+    setRides((current) =>
+      current.map((ride) => {
+        if (ride.id !== rideId || ride.bookedSeats === 0) {
+          return ride;
+        }
+
+        return {
+          ...ride,
+          bookedSeats: ride.bookedSeats - 1,
+          passengers: ride.passengers.slice(0, -1),
+        };
+      }),
+    );
+  }
+
+  function resetDemo() {
+    setRides(starterRides);
+    setActiveRideId(starterRides[0].id);
+  }
+
   return (
-    <div className="App">
-      <Router>
-        {LoggedIn && <Navbar />}
-        <div className="mw-100 App">
-          <Routes>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/" element={<Login />}></Route>
-            <Route path="/home" element={<Home />}></Route>
-            <Route path="/signup" element={<Signup />}></Route>
-            <Route path="/userdetails/:id" element={<UserDetails />}></Route>
-            <Route path="/tripdetail/:id" element={<TripDetail />}></Route>
-            <Route path="/schedule" element={<CreateTrip />}></Route>
-            <Route path="/bookedtrips" element={<Booked />}></Route>
-            <Route path="/createdtrips" element={<Created />}></Route>
-            <Route path="/tripsStatus" element={<TripStatus />}></Route>
-          </Routes>
+    <main className="app-shell">
+      <nav className="topbar">
+        <div>
+          <p className="eyebrow">Cab pooling</p>
+          <h1>Share routes, split fares, reach together.</h1>
         </div>
-      </Router>
-    </div>
+        <button className="ghost-button" type="button" onClick={resetDemo}>
+          Reset demo
+        </button>
+      </nav>
+
+      <section className="hero-grid">
+        <div className="hero-panel">
+          <p className="eyebrow">Live ride board</p>
+          <h2>Find trusted cab partners for everyday routes.</h2>
+          <p>
+            Pooling keeps ride planning simple: publish your trip, reserve open seats,
+            and track who is travelling with you.
+          </p>
+          <div className="stats-row">
+            <span><strong>{stats.rides}</strong> rides</span>
+            <span><strong>{stats.availableSeats}</strong> seats open</span>
+            <span><strong>{stats.bookedSeats}</strong> booked</span>
+          </div>
+        </div>
+        <form className="search-panel" onSubmit={(event) => event.preventDefault()}>
+          <label htmlFor="search">Search rides</label>
+          <input
+            id="search"
+            type="search"
+            placeholder="Source, destination, driver, vehicle"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+        </form>
+      </section>
+
+      <section className="layout">
+        <div className="ride-list" aria-label="Available rides">
+          {filteredRides.map((ride) => (
+            <button
+              className={`ride-card ${activeRide?.id === ride.id ? "active" : ""}`}
+              key={ride.id}
+              type="button"
+              onClick={() => setActiveRideId(ride.id)}
+            >
+              <span className="route">{ride.source} to {ride.destination}</span>
+              <span>{formatDate(ride.date)} at {ride.time}</span>
+              <span>{ride.seats - ride.bookedSeats} seats open · Rs. {ride.fare}</span>
+            </button>
+          ))}
+          {filteredRides.length === 0 && <p className="empty-state">No rides match your search.</p>}
+        </div>
+
+        {activeRide && (
+          <article className="detail-panel">
+            <div className="detail-header">
+              <div>
+                <p className="eyebrow">Selected ride</p>
+                <h2>{activeRide.source} to {activeRide.destination}</h2>
+              </div>
+              <span className="fare">Rs. {activeRide.fare}</span>
+            </div>
+            <dl className="details">
+              <div><dt>Driver</dt><dd>{activeRide.driver}</dd></div>
+              <div><dt>Date</dt><dd>{formatDate(activeRide.date)}</dd></div>
+              <div><dt>Time</dt><dd>{activeRide.time}</dd></div>
+              <div><dt>Vehicle</dt><dd>{activeRide.vehicle}</dd></div>
+              <div><dt>Contact</dt><dd>{activeRide.phone}</dd></div>
+              <div><dt>Seats</dt><dd>{activeRide.bookedSeats}/{activeRide.seats} booked</dd></div>
+            </dl>
+            <p className="notes">{activeRide.notes}</p>
+            <div className="passenger-list">
+              {(activeRide.passengers.length ? activeRide.passengers : ["No passengers yet"]).map((name) => (
+                <span key={name}>{name}</span>
+              ))}
+            </div>
+            <div className="actions">
+              <button type="button" onClick={() => bookSeat(activeRide.id)} disabled={activeRide.bookedSeats >= activeRide.seats}>
+                Book seat
+              </button>
+              <button className="secondary-button" type="button" onClick={() => cancelSeat(activeRide.id)}>
+                Cancel one seat
+              </button>
+            </div>
+          </article>
+        )}
+      </section>
+
+      <section className="create-section">
+        <div>
+          <p className="eyebrow">Create a trip</p>
+          <h2>Add a cab share in under a minute.</h2>
+        </div>
+        <form className="ride-form" onSubmit={createRide}>
+          {[
+            ["driver", "Driver name", "text"],
+            ["source", "Source", "text"],
+            ["destination", "Destination", "text"],
+            ["date", "Date", "date"],
+            ["time", "Time", "time"],
+            ["seats", "Seats", "number"],
+            ["fare", "Fare per seat", "number"],
+            ["vehicle", "Vehicle", "text"],
+            ["phone", "Phone", "tel"],
+          ].map(([name, label, type]) => (
+            <label key={name}>
+              {label}
+              <input name={name} type={type} min={type === "number" ? "1" : undefined} value={form[name]} onChange={updateForm} required />
+            </label>
+          ))}
+          <label className="wide">
+            Notes
+            <textarea name="notes" rows="3" value={form.notes} onChange={updateForm} required />
+          </label>
+          <button type="submit">Publish ride</button>
+        </form>
+      </section>
+    </main>
   );
 }
 
