@@ -211,6 +211,17 @@ function App() {
     setSortBy("date");
   }
 
+  function exportRides() {
+    const payload = JSON.stringify(rides, null, 2);
+    const blob = new Blob([payload], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "pooling-rides.json";
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
   async function askAssistant(event) {
     event.preventDefault();
     const message = assistantQuestion.trim();
@@ -426,7 +437,9 @@ function App() {
 
       <footer className="footer">
         <span>Pooling cab sharing dashboard</span>
-        <span>Built for quick route coordination and seat planning.</span>
+        <button className="secondary-button compact-button" type="button" onClick={exportRides} disabled={rides.length === 0}>
+          Export rides
+        </button>
       </footer>
     </main>
   );
