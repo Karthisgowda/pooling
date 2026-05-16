@@ -395,6 +395,7 @@ function App() {
                 type={type}
                 min={name === "date" ? today : name === "seats" || name === "fare" ? "1" : undefined}
                 max={name === "seats" ? "8" : undefined}
+                autoComplete={name === "driver" ? "name" : name === "phone" ? "tel" : undefined}
                 placeholder={placeholder}
                 value={form[name]}
                 onChange={updateForm}
