@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
+import { RIDE_STATUSES, SORT_OPTIONS } from "./rideConstants";
 import { calculateRideStats, cleanText, formatDate, getAvailableSeats, phoneHref, titleCase } from "./rideUtils";
 
 const STORAGE_KEY = "pooling-rides";
@@ -271,16 +272,15 @@ function App() {
           />
           <label htmlFor="status">Status</label>
           <select id="status" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
-            <option>All</option>
-            <option>Open</option>
-            <option>Full</option>
-            <option>Completed</option>
+            {RIDE_STATUSES.map((status) => (
+              <option key={status}>{status}</option>
+            ))}
           </select>
           <label htmlFor="sort">Sort by</label>
           <select id="sort" value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
-            <option value="date">Earliest trip</option>
-            <option value="fare">Lowest fare</option>
-            <option value="seats">Most seats open</option>
+            {SORT_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
           </select>
           <button className="secondary-button" type="button" onClick={clearFilters}>
             Clear filters
