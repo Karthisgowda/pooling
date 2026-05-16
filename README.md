@@ -70,6 +70,8 @@ GROQ_API_KEY=your_groq_api_key_here
 
 The assistant sends the current ride list to a Vercel serverless function and asks Groq for a concise planning response. The frontend never receives the Groq API key. Only route, timing, seat, fare, vehicle, and status fields are included in the assistant context.
 
+Assistant answers are not cached, so each question uses the current ride board state.
+
 ## Notes
 
 The original project used a private local API address, which would not work after deployment. This version is self-contained for ride management and uses a Vercel serverless function for the Groq assistant so the API key is not exposed in frontend code.
