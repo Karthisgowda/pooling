@@ -118,7 +118,7 @@ function App() {
   function bookSeat(rideId) {
     setRides((current) =>
       current.map((ride) => {
-        if (ride.id !== rideId || ride.bookedSeats >= ride.seats) {
+        if (ride.id !== rideId || ride.status === "Completed" || ride.bookedSeats >= ride.seats) {
           return ride;
         }
 
@@ -137,7 +137,7 @@ function App() {
   function cancelSeat(rideId) {
     setRides((current) =>
       current.map((ride) => {
-        if (ride.id !== rideId || ride.bookedSeats === 0) {
+        if (ride.id !== rideId || ride.status === "Completed" || ride.bookedSeats === 0) {
           return ride;
         }
 
@@ -252,13 +252,13 @@ function App() {
               ))}
             </div>
             <div className="actions">
-              <button type="button" onClick={() => bookSeat(activeRide.id)} disabled={activeRide.bookedSeats >= activeRide.seats}>
+              <button type="button" onClick={() => bookSeat(activeRide.id)} disabled={activeRide.status === "Completed" || activeRide.bookedSeats >= activeRide.seats}>
                 Book seat
               </button>
-              <button className="secondary-button" type="button" onClick={() => cancelSeat(activeRide.id)}>
+              <button className="secondary-button" type="button" onClick={() => cancelSeat(activeRide.id)} disabled={activeRide.status === "Completed"}>
                 Cancel one seat
               </button>
-              <button className="secondary-button" type="button" onClick={() => completeRide(activeRide.id)}>
+              <button className="secondary-button" type="button" onClick={() => completeRide(activeRide.id)} disabled={activeRide.status === "Completed"}>
                 Mark completed
               </button>
             </div>
