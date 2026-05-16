@@ -327,6 +327,7 @@ function App() {
               className={`ride-card ${activeRide?.id === ride.id ? "active" : ""}`}
               key={ride.id}
               type="button"
+              aria-label={`View ride from ${ride.source} to ${ride.destination}`}
               onClick={() => setActiveRideId(ride.id)}
             >
               <span className="route">{ride.source} to {ride.destination}</span>
