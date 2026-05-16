@@ -352,6 +352,24 @@ dd a {
   padding: 9px 12px;
 }
 
+.footer-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.import-button {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 9px 12px;
+  background: white;
+  color: #172033;
+  cursor: pointer;
+}
+
+.import-button input {
+  display: none;
+}
+
 .ride-form {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
