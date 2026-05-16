@@ -376,7 +376,7 @@ function App() {
           <h2>Add a cab share in under a minute.</h2>
         </div>
         <form className="ride-form" onSubmit={createRide}>
-          {formError && <p className="form-error wide">{formError}</p>}
+          {formError && <p className="form-error wide" role="alert">{formError}</p>}
           {[
             ["driver", "Driver name", "text", "Full name"],
             ["source", "Source", "text", "Pickup city or area"],
@@ -429,7 +429,7 @@ function App() {
             {assistantLoading ? "Thinking..." : "Ask assistant"}
           </button>
         </form>
-        {assistantError && <p className="form-error">{assistantError}</p>}
+        {assistantError && <p className="form-error" role="alert">{assistantError}</p>}
         {assistantReply && <p className="assistant-reply">{assistantReply}</p>}
       </section>
 
