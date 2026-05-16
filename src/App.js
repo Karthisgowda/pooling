@@ -28,6 +28,7 @@ function loadRides() {
 }
 
 function App() {
+  const today = new Date().toISOString().slice(0, 10);
   const [rides, setRides] = useState(loadRides);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
@@ -88,7 +89,6 @@ function App() {
     event.preventDefault();
     const seats = Number(form.seats);
     const fare = Number(form.fare);
-    const today = new Date().toISOString().slice(0, 10);
 
     if (form.date < today) {
       setFormError("Trip date cannot be in the past.");
@@ -393,7 +393,7 @@ function App() {
               <input
                 name={name}
                 type={type}
-                min={name === "seats" || name === "fare" ? "1" : undefined}
+                min={name === "date" ? today : name === "seats" || name === "fare" ? "1" : undefined}
                 max={name === "seats" ? "8" : undefined}
                 placeholder={placeholder}
                 value={form[name]}
