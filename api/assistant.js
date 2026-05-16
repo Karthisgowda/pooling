@@ -1,6 +1,8 @@
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 module.exports = async function handler(request, response) {
+  response.setHeader("Cache-Control", "no-store");
+
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
     return response.status(405).json({ error: "Method not allowed" });
