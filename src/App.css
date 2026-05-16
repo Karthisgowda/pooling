@@ -296,6 +296,11 @@ dd {
   margin-top: 18px;
 }
 
+.passenger-input {
+  max-width: 220px;
+  margin-top: 0;
+}
+
 .create-section {
   margin-top: 18px;
   padding: 24px;
