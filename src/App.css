@@ -77,6 +77,12 @@ button:disabled {
   color: #172033;
 }
 
+.danger-button {
+  border: 1px solid #fecaca;
+  background: #fff1f2;
+  color: #be123c;
+}
+
 .hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.8fr);

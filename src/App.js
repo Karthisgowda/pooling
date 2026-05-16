@@ -169,6 +169,11 @@ function App() {
     );
   }
 
+  function deleteRide(rideId) {
+    setRides((current) => current.filter((ride) => ride.id !== rideId));
+    setActiveRideId("");
+  }
+
   return (
     <main className="app-shell">
       <nav className="topbar">
@@ -269,6 +274,9 @@ function App() {
               </button>
               <button className="secondary-button" type="button" onClick={() => completeRide(activeRide.id)} disabled={activeRide.status === "Completed"}>
                 Mark completed
+              </button>
+              <button className="danger-button" type="button" onClick={() => deleteRide(activeRide.id)}>
+                Delete ride
               </button>
             </div>
           </article>
