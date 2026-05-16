@@ -326,12 +326,17 @@ dd {
 
 .footer {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
   max-width: 1180px;
   margin: 18px auto 0;
   color: #64748b;
   font-size: 14px;
+}
+
+.compact-button {
+  padding: 9px 12px;
 }
 
 .ride-form {
