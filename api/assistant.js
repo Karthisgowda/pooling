@@ -18,6 +18,20 @@ module.exports = async function handler(request, response) {
     return response.status(400).json({ error: "Message is required." });
   }
 
+  const safeRides = Array.isArray(rides)
+    ? rides.slice(0, 25).map((ride) => ({
+        source: ride.source,
+        destination: ride.destination,
+        date: ride.date,
+        time: ride.time,
+        seats: ride.seats,
+        bookedSeats: ride.bookedSeats,
+        fare: ride.fare,
+        vehicle: ride.vehicle,
+        status: ride.status,
+      }))
+    : [];
+
   const groqResponse = await fetch(GROQ_URL, {
     method: "POST",
     headers: {
@@ -36,7 +50,7 @@ module.exports = async function handler(request, response) {
         },
         {
           role: "user",
-          content: `Current rides JSON: ${JSON.stringify(rides).slice(0, 6000)}\n\nUser question: ${message}`,
+          content: `Current rides JSON: ${JSON.stringify(safeRides)}\n\nUser question: ${message.slice(0, 240)}`,
         },
       ],
     }),
