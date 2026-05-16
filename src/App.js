@@ -395,6 +395,11 @@ function App() {
         {assistantError && <p className="form-error">{assistantError}</p>}
         {assistantReply && <p className="assistant-reply">{assistantReply}</p>}
       </section>
+
+      <footer className="footer">
+        <span>Pooling cab sharing dashboard</span>
+        <span>Built for quick route coordination and seat planning.</span>
+      </footer>
     </main>
   );
 }

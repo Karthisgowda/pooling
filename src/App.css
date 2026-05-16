@@ -320,6 +320,16 @@ dd {
   line-height: 1.6;
 }
 
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1180px;
+  margin: 18px auto 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
 .ride-form {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -364,5 +374,9 @@ dd {
 
   .details {
     grid-template-columns: 1fr;
+  }
+
+  .footer {
+    flex-direction: column;
   }
 }
