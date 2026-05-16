@@ -180,6 +180,13 @@ function App() {
 
   async function askAssistant(event) {
     event.preventDefault();
+    const message = assistantQuestion.trim();
+
+    if (message.length < 3) {
+      setAssistantError("Please enter a clear question for the assistant.");
+      return;
+    }
+
     setAssistantLoading(true);
     setAssistantError("");
 
@@ -187,7 +194,7 @@ function App() {
       const response = await fetch("/api/assistant", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: assistantQuestion, rides }),
+        body: JSON.stringify({ message, rides }),
       });
       const data = await response.json();
 
@@ -360,11 +367,12 @@ function App() {
           <input
             type="text"
             placeholder="Example: Which rides still have seats?"
+            maxLength="240"
             value={assistantQuestion}
             onChange={(event) => setAssistantQuestion(event.target.value)}
             required
           />
-          <button type="submit" disabled={assistantLoading}>
+          <button type="submit" disabled={assistantLoading || assistantQuestion.trim().length < 3}>
             {assistantLoading ? "Thinking..." : "Ask assistant"}
           </button>
         </form>
