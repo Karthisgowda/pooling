@@ -205,6 +205,12 @@ function App() {
     setActiveRideId("");
   }
 
+  function clearFilters() {
+    setQuery("");
+    setStatusFilter("All");
+    setSortBy("date");
+  }
+
   async function askAssistant(event) {
     event.preventDefault();
     const message = assistantQuestion.trim();
@@ -284,6 +290,9 @@ function App() {
             <option value="fare">Lowest fare</option>
             <option value="seats">Most seats open</option>
           </select>
+          <button className="secondary-button" type="button" onClick={clearFilters}>
+            Clear filters
+          </button>
         </form>
       </section>
 
