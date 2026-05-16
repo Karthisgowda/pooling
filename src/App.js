@@ -58,10 +58,12 @@ function App() {
   const [assistantLoading, setAssistantLoading] = useState(false);
   const [assistantError, setAssistantError] = useState("");
   const [passengerName, setPassengerName] = useState("");
+  const [lastUpdated, setLastUpdated] = useState("");
   const activeRide = rides.find((ride) => ride.id === activeRideId) ?? rides[0] ?? null;
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(rides));
+    setLastUpdated(new Date().toLocaleString("en-IN"));
   }, [rides]);
 
   const filteredRides = useMemo(() => {
@@ -278,6 +280,7 @@ function App() {
             and track who is travelling with you.
           </p>
           <p className="data-note">Ride data is saved privately in this browser.</p>
+          {lastUpdated && <p className="updated-note">Last updated: {lastUpdated}</p>}
           <div className="stats-row">
             <span><strong>{stats.rides}</strong> rides</span>
             <span><strong>{stats.openRides}</strong> open</span>

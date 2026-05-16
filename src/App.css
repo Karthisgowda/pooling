@@ -119,6 +119,10 @@ button:disabled {
   font-weight: 800;
 }
 
+.updated-note {
+  font-size: 14px;
+}
+
 .stats-row {
   display: flex;
   flex-wrap: wrap;
