@@ -383,14 +383,23 @@ function App() {
             ["destination", "Destination", "text", "Drop city or area"],
             ["date", "Date", "date"],
             ["time", "Time", "time"],
-            ["seats", "Seats", "number", "1-8"],
+            ["seats", "Seats", "number", "1 to 8 seats"],
             ["fare", "Fare per seat", "number", "Amount in rupees"],
             ["vehicle", "Vehicle", "text", "Car model"],
             ["phone", "Phone", "tel", "Contact number"],
           ].map(([name, label, type, placeholder]) => (
             <label key={name}>
               {label}
-              <input name={name} type={type} min={type === "number" ? "1" : undefined} placeholder={placeholder} value={form[name]} onChange={updateForm} required />
+              <input
+                name={name}
+                type={type}
+                min={name === "seats" || name === "fare" ? "1" : undefined}
+                max={name === "seats" ? "8" : undefined}
+                placeholder={placeholder}
+                value={form[name]}
+                onChange={updateForm}
+                required
+              />
             </label>
           ))}
           <label className="wide">
