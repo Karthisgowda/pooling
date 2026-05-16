@@ -6,10 +6,12 @@ Pooling is a responsive cab sharing web app for listing rides, booking seats, an
 
 - Browse available cab sharing rides.
 - Search by source, destination, driver, or vehicle.
+- Filter rides by Open, Full, or Completed status.
 - View ride details, fare, seat availability, driver contact, and passengers.
 - Book or cancel a seat in the selected ride.
+- Mark rides completed or delete old rides.
 - Create a new ride with driver, route, date, time, fare, vehicle, phone, and notes.
-- Reset the demo data at any time.
+- Ask the Groq-powered assistant questions about current ride availability.
 - Responsive layout for desktop and mobile screens.
 
 ## Tech Stack
@@ -49,6 +51,12 @@ npm run build
 
 This project is ready for static hosting on Vercel. The production build output is generated in the `build/` folder.
 
+Set the server-side Groq key before using the assistant:
+
+```bash
+GROQ_API_KEY=your_groq_api_key_here
+```
+
 ## Notes
 
-The original project used a private local API address, which would not work after deployment. This version is self-contained so the live site remains usable immediately. A backend API can be connected later by replacing the local ride state with API calls.
+The original project used a private local API address, which would not work after deployment. This version is self-contained for ride management and uses a Vercel serverless function for the Groq assistant so the API key is not exposed in frontend code.
