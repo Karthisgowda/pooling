@@ -1,6 +1,6 @@
 # Pooling
 
-Pooling is a responsive cab sharing web app for listing rides, booking seats, and creating new shared cab trips. The app is built with React and stores demo ride data in the browser with `localStorage`, so it works on a static deployment without a separate backend.
+Pooling is a responsive cab sharing web app for listing rides, booking seats, and creating new shared cab trips. The app is built with React and stores user-created ride data in the browser with `localStorage`, so it works on a static deployment without a separate database.
 
 ## Features
 
@@ -19,7 +19,7 @@ Pooling is a responsive cab sharing web app for listing rides, booking seats, an
 - React 17
 - Create React App
 - CSS modules through plain app styles
-- Browser `localStorage` for demo persistence
+- Browser `localStorage` for user-created ride persistence
 
 ## Getting Started
 
