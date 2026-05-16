@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import { RIDE_STATUSES, SORT_OPTIONS } from "./rideConstants";
-import { calculateRideStats, cleanText, formatDate, getAvailableSeats, phoneHref, titleCase } from "./rideUtils";
+import { calculateRideStats, cleanText, formatDate, getAvailableSeats, isValidRide, phoneHref, titleCase } from "./rideUtils";
 
 const STORAGE_KEY = "pooling-rides";
 
@@ -215,9 +215,12 @@ function App() {
       try {
         const imported = JSON.parse(reader.result);
 
-        if (Array.isArray(imported)) {
+        if (Array.isArray(imported) && imported.every(isValidRide)) {
           setRides(imported);
           setActiveRideId("");
+          setFormError("");
+        } else {
+          setFormError("Imported file does not contain valid rides.");
         }
       } catch {
         setFormError("Could not import rides. Please choose a valid JSON export.");
