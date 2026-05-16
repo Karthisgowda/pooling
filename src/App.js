@@ -153,6 +153,21 @@ function App() {
     );
   }
 
+  function completeRide(rideId) {
+    setRides((current) =>
+      current.map((ride) => {
+        if (ride.id !== rideId) {
+          return ride;
+        }
+
+        return {
+          ...ride,
+          status: "Completed",
+        };
+      }),
+    );
+  }
+
   return (
     <main className="app-shell">
       <nav className="topbar">
@@ -242,6 +257,9 @@ function App() {
               </button>
               <button className="secondary-button" type="button" onClick={() => cancelSeat(activeRide.id)}>
                 Cancel one seat
+              </button>
+              <button className="secondary-button" type="button" onClick={() => completeRide(activeRide.id)}>
+                Mark completed
               </button>
             </div>
           </article>
