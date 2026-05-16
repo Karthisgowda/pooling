@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
+import { calculateRideStats, cleanText, formatDate, getAvailableSeats, phoneHref, titleCase } from "./rideUtils";
 
 const STORAGE_KEY = "pooling-rides";
 
@@ -23,26 +24,6 @@ function loadRides() {
   } catch {
     return [];
   }
-}
-
-function formatDate(date) {
-  return new Intl.DateTimeFormat("en-IN", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  }).format(new Date(`${date}T00:00:00`));
-}
-
-function cleanText(value) {
-  return value.replace(/\s+/g, " ").trim();
-}
-
-function titleCase(value) {
-  return cleanText(value).replace(/\b\w/g, (letter) => letter.toUpperCase());
-}
-
-function phoneHref(phone) {
-  return `tel:${String(phone).replace(/[^\d+]/g, "")}`;
 }
 
 function App() {
@@ -84,7 +65,7 @@ function App() {
       }
 
       if (sortBy === "seats") {
-        return (right.seats - right.bookedSeats) - (left.seats - left.bookedSeats);
+        return getAvailableSeats(right) - getAvailableSeats(left);
       }
 
       return `${left.date}T${left.time}`.localeCompare(`${right.date}T${right.time}`);
@@ -92,16 +73,7 @@ function App() {
   }, [query, rides, sortBy, statusFilter]);
 
   const stats = useMemo(() => {
-    const totalSeats = rides.reduce((sum, ride) => sum + Number(ride.seats), 0);
-    const bookedSeats = rides.reduce((sum, ride) => sum + Number(ride.bookedSeats), 0);
-
-    return {
-      rides: rides.length,
-      openRides: rides.filter((ride) => (ride.status ?? "Open") === "Open").length,
-      completedRides: rides.filter((ride) => ride.status === "Completed").length,
-      availableSeats: totalSeats - bookedSeats,
-      bookedSeats,
-    };
+    return calculateRideStats(rides);
   }, [rides]);
 
   function updateForm(event) {
@@ -334,7 +306,7 @@ function App() {
               <span className="route">{ride.source} to {ride.destination}</span>
               <span>Driver: {ride.driver}</span>
               <span>{formatDate(ride.date)} at {ride.time}</span>
-              <span>{ride.seats - ride.bookedSeats} seats open - Rs. {ride.fare}</span>
+              <span>{getAvailableSeats(ride)} seats open - Rs. {ride.fare}</span>
               <span className={`status-pill ${(ride.status ?? "Open").toLowerCase()}`}>{ride.status ?? "Open"}</span>
             </button>
           ))}
