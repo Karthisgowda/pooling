@@ -7,4 +7,5 @@ test("renders cab sharing dashboard", () => {
   expect(screen.getByText(/create a trip/i)).toBeInTheDocument();
   expect(screen.getByText(/no rides published yet/i)).toBeInTheDocument();
   expect(screen.getByText(/ai ride assistant/i)).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: /clear filters/i })).toBeInTheDocument();
 });
