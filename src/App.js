@@ -203,6 +203,29 @@ function App() {
     URL.revokeObjectURL(url);
   }
 
+  function importRides(event) {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const imported = JSON.parse(reader.result);
+
+        if (Array.isArray(imported)) {
+          setRides(imported);
+          setActiveRideId("");
+        }
+      } catch {
+        setFormError("Could not import rides. Please choose a valid JSON export.");
+      }
+    };
+    reader.readAsText(file);
+  }
+
   async function askAssistant(event) {
     event.preventDefault();
     const message = assistantQuestion.trim();
@@ -435,9 +458,15 @@ function App() {
 
       <footer className="footer">
         <span>Pooling cab sharing dashboard</span>
-        <button className="secondary-button compact-button" type="button" onClick={exportRides} disabled={rides.length === 0}>
-          Export rides
-        </button>
+        <div className="footer-actions">
+          <label className="import-button">
+            Import rides
+            <input type="file" accept="application/json" onChange={importRides} />
+          </label>
+          <button className="secondary-button compact-button" type="button" onClick={exportRides} disabled={rides.length === 0}>
+            Export rides
+          </button>
+        </div>
       </footer>
     </main>
   );
