@@ -143,6 +143,10 @@ button:disabled {
   padding: 24px;
 }
 
+.search-panel button {
+  margin-top: 6px;
+}
+
 label {
   color: #475569;
   font-size: 14px;
