@@ -105,6 +105,7 @@ function App() {
       seats,
       bookedSeats: 0,
       fare,
+      status: "Open",
       passengers: [],
     };
 
@@ -198,7 +199,8 @@ function App() {
             >
               <span className="route">{ride.source} to {ride.destination}</span>
               <span>{formatDate(ride.date)} at {ride.time}</span>
-              <span>{ride.seats - ride.bookedSeats} seats open · Rs. {ride.fare}</span>
+              <span>{ride.seats - ride.bookedSeats} seats open - Rs. {ride.fare}</span>
+              <span className={`status-pill ${(ride.status ?? "Open").toLowerCase()}`}>{ride.status ?? "Open"}</span>
             </button>
           ))}
           {rides.length > 0 && filteredRides.length === 0 && <p className="empty-state">No rides match your search.</p>}
@@ -215,6 +217,7 @@ function App() {
             </div>
             <dl className="details">
               <div><dt>Driver</dt><dd>{activeRide.driver}</dd></div>
+              <div><dt>Status</dt><dd>{activeRide.status ?? "Open"}</dd></div>
               <div><dt>Date</dt><dd>{formatDate(activeRide.date)}</dd></div>
               <div><dt>Time</dt><dd>{activeRide.time}</dd></div>
               <div><dt>Vehicle</dt><dd>{activeRide.vehicle}</dd></div>
