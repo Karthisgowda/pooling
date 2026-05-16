@@ -41,6 +41,10 @@ function titleCase(value) {
   return cleanText(value).replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
+function phoneHref(phone) {
+  return `tel:${String(phone).replace(/[^\d+]/g, "")}`;
+}
+
 function App() {
   const [rides, setRides] = useState(loadRides);
   const [query, setQuery] = useState("");
@@ -349,7 +353,7 @@ function App() {
               <div><dt>Date</dt><dd>{formatDate(activeRide.date)}</dd></div>
               <div><dt>Time</dt><dd>{activeRide.time}</dd></div>
               <div><dt>Vehicle</dt><dd>{activeRide.vehicle}</dd></div>
-              <div><dt>Contact</dt><dd>{activeRide.phone}</dd></div>
+              <div><dt>Contact</dt><dd><a href={phoneHref(activeRide.phone)}>{activeRide.phone}</a></dd></div>
               <div><dt>Seats</dt><dd>{activeRide.bookedSeats}/{activeRide.seats} booked</dd></div>
             </dl>
             <p className="notes">{activeRide.notes}</p>
