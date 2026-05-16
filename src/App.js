@@ -456,7 +456,14 @@ function App() {
           </button>
         </form>
         {assistantError && <p className="form-error" role="alert">{assistantError}</p>}
-        {assistantReply && <p className="assistant-reply">{assistantReply}</p>}
+        {assistantReply && (
+          <div className="assistant-result">
+            <p className="assistant-reply">{assistantReply}</p>
+            <button className="secondary-button compact-button" type="button" onClick={() => setAssistantReply("")}>
+              Clear answer
+            </button>
+          </div>
+        )}
       </section>
 
       <footer className="footer">

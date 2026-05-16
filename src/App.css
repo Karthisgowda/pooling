@@ -337,6 +337,12 @@ dd a {
   line-height: 1.6;
 }
 
+.assistant-result {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+
 .footer {
   display: flex;
   align-items: center;
