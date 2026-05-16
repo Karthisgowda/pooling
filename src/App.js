@@ -65,6 +65,8 @@ function App() {
 
     return {
       rides: rides.length,
+      openRides: rides.filter((ride) => (ride.status ?? "Open") === "Open").length,
+      completedRides: rides.filter((ride) => ride.status === "Completed").length,
       availableSeats: totalSeats - bookedSeats,
       bookedSeats,
     };
@@ -186,8 +188,9 @@ function App() {
           </p>
           <div className="stats-row">
             <span><strong>{stats.rides}</strong> rides</span>
+            <span><strong>{stats.openRides}</strong> open</span>
             <span><strong>{stats.availableSeats}</strong> seats open</span>
-            <span><strong>{stats.bookedSeats}</strong> booked</span>
+            <span><strong>{stats.completedRides}</strong> completed</span>
           </div>
         </div>
         <form className="search-panel" onSubmit={(event) => event.preventDefault()}>
