@@ -45,6 +45,7 @@ function App() {
   const [rides, setRides] = useState(loadRides);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [sortBy, setSortBy] = useState("date");
   const [activeRideId, setActiveRideId] = useState("");
   const [form, setForm] = useState(emptyForm);
   const [formError, setFormError] = useState("");
@@ -61,7 +62,7 @@ function App() {
   const filteredRides = useMemo(() => {
     const search = query.trim().toLowerCase();
 
-    return rides.filter((ride) => {
+    const matchedRides = rides.filter((ride) => {
       const matchesStatus = statusFilter === "All" || (ride.status ?? "Open") === statusFilter;
       const matchesSearch = !search || [ride.source, ride.destination, ride.driver, ride.vehicle]
         .join(" ")
@@ -69,7 +70,19 @@ function App() {
         .includes(search);
       return matchesStatus && matchesSearch;
     });
-  }, [query, rides, statusFilter]);
+
+    return [...matchedRides].sort((left, right) => {
+      if (sortBy === "fare") {
+        return Number(left.fare) - Number(right.fare);
+      }
+
+      if (sortBy === "seats") {
+        return (right.seats - right.bookedSeats) - (left.seats - left.bookedSeats);
+      }
+
+      return `${left.date}T${left.time}`.localeCompare(`${right.date}T${right.time}`);
+    });
+  }, [query, rides, sortBy, statusFilter]);
 
   const stats = useMemo(() => {
     const totalSeats = rides.reduce((sum, ride) => sum + Number(ride.seats), 0);
@@ -264,6 +277,12 @@ function App() {
             <option>Open</option>
             <option>Full</option>
             <option>Completed</option>
+          </select>
+          <label htmlFor="sort">Sort by</label>
+          <select id="sort" value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
+            <option value="date">Earliest trip</option>
+            <option value="fare">Lowest fare</option>
+            <option value="seats">Most seats open</option>
           </select>
         </form>
       </section>
