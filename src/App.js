@@ -472,9 +472,9 @@ function App() {
         <div className="footer-actions">
           <label className="import-button">
             Import rides
-            <input type="file" accept="application/json" onChange={importRides} />
+            <input type="file" accept="application/json" aria-label="Import rides JSON file" onChange={importRides} />
           </label>
-          <button className="secondary-button compact-button" type="button" onClick={exportRides} disabled={rides.length === 0}>
+          <button className="secondary-button compact-button" type="button" aria-label="Export rides JSON file" onClick={exportRides} disabled={rides.length === 0}>
             Export rides
           </button>
         </div>
