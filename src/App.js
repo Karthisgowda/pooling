@@ -284,6 +284,7 @@ function App() {
               onClick={() => setActiveRideId(ride.id)}
             >
               <span className="route">{ride.source} to {ride.destination}</span>
+              <span>Driver: {ride.driver}</span>
               <span>{formatDate(ride.date)} at {ride.time}</span>
               <span>{ride.seats - ride.bookedSeats} seats open - Rs. {ride.fare}</span>
               <span className={`status-pill ${(ride.status ?? "Open").toLowerCase()}`}>{ride.status ?? "Open"}</span>
