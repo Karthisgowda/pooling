@@ -3,54 +3,6 @@ import "./App.css";
 
 const STORAGE_KEY = "pooling-rides";
 
-const starterRides = [
-  {
-    id: "ride-1",
-    driver: "Karthik S Gowda",
-    source: "Mysuru",
-    destination: "Bengaluru",
-    date: "2026-05-18",
-    time: "08:30",
-    seats: 4,
-    bookedSeats: 1,
-    fare: 350,
-    vehicle: "Swift Dzire",
-    phone: "+91 98765 43210",
-    notes: "Pickup near city bus stand. One small bag per passenger.",
-    passengers: ["Asha"],
-  },
-  {
-    id: "ride-2",
-    driver: "Nikhil Rao",
-    source: "Mandya",
-    destination: "Bengaluru",
-    date: "2026-05-19",
-    time: "07:15",
-    seats: 3,
-    bookedSeats: 0,
-    fare: 220,
-    vehicle: "Hyundai i20",
-    phone: "+91 91234 56780",
-    notes: "Route through Kengeri. Flexible pickup on main road.",
-    passengers: [],
-  },
-  {
-    id: "ride-3",
-    driver: "Priya M",
-    source: "Bengaluru",
-    destination: "Tumakuru",
-    date: "2026-05-20",
-    time: "18:00",
-    seats: 4,
-    bookedSeats: 2,
-    fare: 180,
-    vehicle: "Tata Nexon",
-    phone: "+91 99887 76655",
-    notes: "Evening office commute. Drop near railway station.",
-    passengers: ["Rahul", "Meera"],
-  },
-];
-
 const emptyForm = {
   driver: "",
   source: "",
@@ -67,9 +19,9 @@ const emptyForm = {
 function loadRides() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    return Array.isArray(saved) && saved.length > 0 ? saved : starterRides;
+    return Array.isArray(saved) ? saved : [];
   } catch {
-    return starterRides;
+    return [];
   }
 }
 
@@ -84,9 +36,9 @@ function formatDate(date) {
 function App() {
   const [rides, setRides] = useState(loadRides);
   const [query, setQuery] = useState("");
-  const [activeRideId, setActiveRideId] = useState(starterRides[0].id);
+  const [activeRideId, setActiveRideId] = useState("");
   const [form, setForm] = useState(emptyForm);
-  const activeRide = rides.find((ride) => ride.id === activeRideId) ?? rides[0];
+  const activeRide = rides.find((ride) => ride.id === activeRideId) ?? rides[0] ?? null;
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(rides));
@@ -174,11 +126,6 @@ function App() {
     );
   }
 
-  function resetDemo() {
-    setRides(starterRides);
-    setActiveRideId(starterRides[0].id);
-  }
-
   return (
     <main className="app-shell">
       <nav className="topbar">
@@ -186,9 +133,6 @@ function App() {
           <p className="eyebrow">Cab pooling</p>
           <h1>Share routes, split fares, reach together.</h1>
         </div>
-        <button className="ghost-button" type="button" onClick={resetDemo}>
-          Reset demo
-        </button>
       </nav>
 
       <section className="hero-grid">
