@@ -271,6 +271,16 @@ dd {
   grid-column: 1 / -1;
 }
 
+.form-error {
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  margin: 0;
+  padding: 12px;
+  background: #fef2f2;
+  color: #991b1b;
+  font-weight: 800;
+}
+
 .ride-form button {
   align-self: end;
 }

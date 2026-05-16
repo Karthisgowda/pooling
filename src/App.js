@@ -38,6 +38,7 @@ function App() {
   const [query, setQuery] = useState("");
   const [activeRideId, setActiveRideId] = useState("");
   const [form, setForm] = useState(emptyForm);
+  const [formError, setFormError] = useState("");
   const activeRide = rides.find((ride) => ride.id === activeRideId) ?? rides[0] ?? null;
 
   useEffect(() => {
@@ -79,19 +80,38 @@ function App() {
 
   function createRide(event) {
     event.preventDefault();
+    const seats = Number(form.seats);
+    const fare = Number(form.fare);
+    const today = new Date().toISOString().slice(0, 10);
+
+    if (form.date < today) {
+      setFormError("Trip date cannot be in the past.");
+      return;
+    }
+
+    if (!Number.isInteger(seats) || seats < 1 || seats > 8) {
+      setFormError("Seats must be a whole number between 1 and 8.");
+      return;
+    }
+
+    if (!Number.isFinite(fare) || fare < 1) {
+      setFormError("Fare must be a positive amount.");
+      return;
+    }
 
     const nextRide = {
       ...form,
       id: `ride-${Date.now()}`,
-      seats: Number(form.seats),
+      seats,
       bookedSeats: 0,
-      fare: Number(form.fare),
+      fare,
       passengers: [],
     };
 
     setRides((current) => [nextRide, ...current]);
     setActiveRideId(nextRide.id);
     setForm(emptyForm);
+    setFormError("");
   }
 
   function bookSeat(rideId) {
@@ -233,6 +253,7 @@ function App() {
           <h2>Add a cab share in under a minute.</h2>
         </div>
         <form className="ride-form" onSubmit={createRide}>
+          {formError && <p className="form-error wide">{formError}</p>}
           {[
             ["driver", "Driver name", "text"],
             ["source", "Source", "text"],
