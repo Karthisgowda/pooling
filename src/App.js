@@ -53,6 +53,7 @@ function App() {
   const [assistantReply, setAssistantReply] = useState("");
   const [assistantLoading, setAssistantLoading] = useState(false);
   const [assistantError, setAssistantError] = useState("");
+  const [passengerName, setPassengerName] = useState("");
   const activeRide = rides.find((ride) => ride.id === activeRideId) ?? rides[0] ?? null;
 
   useEffect(() => {
@@ -160,10 +161,11 @@ function App() {
           ...ride,
           bookedSeats,
           status: bookedSeats >= ride.seats ? "Full" : "Open",
-          passengers: [...ride.passengers, "You"],
+          passengers: [...ride.passengers, cleanText(passengerName) || "Passenger"],
         };
       }),
     );
+    setPassengerName("");
   }
 
   function cancelSeat(rideId) {
@@ -357,6 +359,13 @@ function App() {
               ))}
             </div>
             <div className="actions">
+              <input
+                className="passenger-input"
+                type="text"
+                placeholder="Passenger name"
+                value={passengerName}
+                onChange={(event) => setPassengerName(event.target.value)}
+              />
               <button type="button" onClick={() => bookSeat(activeRide.id)} disabled={activeRide.status === "Completed" || activeRide.bookedSeats >= activeRide.seats}>
                 Book seat
               </button>
