@@ -351,19 +351,19 @@ function App() {
         <form className="ride-form" onSubmit={createRide}>
           {formError && <p className="form-error wide">{formError}</p>}
           {[
-            ["driver", "Driver name", "text"],
-            ["source", "Source", "text"],
-            ["destination", "Destination", "text"],
+            ["driver", "Driver name", "text", "Full name"],
+            ["source", "Source", "text", "Pickup city or area"],
+            ["destination", "Destination", "text", "Drop city or area"],
             ["date", "Date", "date"],
             ["time", "Time", "time"],
-            ["seats", "Seats", "number"],
-            ["fare", "Fare per seat", "number"],
-            ["vehicle", "Vehicle", "text"],
-            ["phone", "Phone", "tel"],
-          ].map(([name, label, type]) => (
+            ["seats", "Seats", "number", "1-8"],
+            ["fare", "Fare per seat", "number", "Amount in rupees"],
+            ["vehicle", "Vehicle", "text", "Car model"],
+            ["phone", "Phone", "tel", "Contact number"],
+          ].map(([name, label, type, placeholder]) => (
             <label key={name}>
               {label}
-              <input name={name} type={type} min={type === "number" ? "1" : undefined} value={form[name]} onChange={updateForm} required />
+              <input name={name} type={type} min={type === "number" ? "1" : undefined} placeholder={placeholder} value={form[name]} onChange={updateForm} required />
             </label>
           ))}
           <label className="wide">
