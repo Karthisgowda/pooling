@@ -113,6 +113,12 @@ button:disabled {
   font-size: 17px;
 }
 
+.data-note {
+  border-left: 4px solid #0f766e;
+  padding-left: 12px;
+  font-weight: 800;
+}
+
 .stats-row {
   display: flex;
   flex-wrap: wrap;

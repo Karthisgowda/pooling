@@ -227,6 +227,7 @@ function App() {
             Pooling keeps ride planning simple: publish your trip, reserve open seats,
             and track who is travelling with you.
           </p>
+          <p className="data-note">Ride data is saved privately in this browser.</p>
           <div className="stats-row">
             <span><strong>{stats.rides}</strong> rides</span>
             <span><strong>{stats.openRides}</strong> open</span>
