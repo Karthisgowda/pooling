@@ -122,9 +122,12 @@ function App() {
           return ride;
         }
 
+        const bookedSeats = ride.bookedSeats + 1;
+
         return {
           ...ride,
-          bookedSeats: ride.bookedSeats + 1,
+          bookedSeats,
+          status: bookedSeats >= ride.seats ? "Full" : "Open",
           passengers: [...ride.passengers, "You"],
         };
       }),
@@ -138,9 +141,12 @@ function App() {
           return ride;
         }
 
+        const bookedSeats = ride.bookedSeats - 1;
+
         return {
           ...ride,
-          bookedSeats: ride.bookedSeats - 1,
+          bookedSeats,
+          status: "Open",
           passengers: ride.passengers.slice(0, -1),
         };
       }),
