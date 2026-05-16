@@ -33,6 +33,14 @@ function formatDate(date) {
   }).format(new Date(`${date}T00:00:00`));
 }
 
+function cleanText(value) {
+  return value.replace(/\s+/g, " ").trim();
+}
+
+function titleCase(value) {
+  return cleanText(value).replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
 function App() {
   const [rides, setRides] = useState(loadRides);
   const [query, setQuery] = useState("");
@@ -107,6 +115,12 @@ function App() {
     const nextRide = {
       ...form,
       id: `ride-${Date.now()}`,
+      driver: titleCase(form.driver),
+      source: titleCase(form.source),
+      destination: titleCase(form.destination),
+      vehicle: cleanText(form.vehicle),
+      phone: cleanText(form.phone),
+      notes: cleanText(form.notes),
       seats,
       bookedSeats: 0,
       fare,
