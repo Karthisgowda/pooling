@@ -284,6 +284,10 @@ dd {
   font-weight: 800;
 }
 
+dd a {
+  color: #0f766e;
+}
+
 .notes {
   color: #475569;
 }
