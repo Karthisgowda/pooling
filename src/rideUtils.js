@@ -34,3 +34,18 @@ export function calculateRideStats(rides) {
     bookedSeats,
   };
 }
+
+export function isValidRide(ride) {
+  return Boolean(
+    ride &&
+      ride.id &&
+      ride.driver &&
+      ride.source &&
+      ride.destination &&
+      ride.date &&
+      ride.time &&
+      Number.isFinite(Number(ride.seats)) &&
+      Number.isFinite(Number(ride.bookedSeats)) &&
+      Number.isFinite(Number(ride.fare)),
+  );
+}
