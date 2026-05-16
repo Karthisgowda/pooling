@@ -40,6 +40,10 @@ function App() {
   const [activeRideId, setActiveRideId] = useState("");
   const [form, setForm] = useState(emptyForm);
   const [formError, setFormError] = useState("");
+  const [assistantQuestion, setAssistantQuestion] = useState("");
+  const [assistantReply, setAssistantReply] = useState("");
+  const [assistantLoading, setAssistantLoading] = useState(false);
+  const [assistantError, setAssistantError] = useState("");
   const activeRide = rides.find((ride) => ride.id === activeRideId) ?? rides[0] ?? null;
 
   useEffect(() => {
@@ -172,6 +176,31 @@ function App() {
   function deleteRide(rideId) {
     setRides((current) => current.filter((ride) => ride.id !== rideId));
     setActiveRideId("");
+  }
+
+  async function askAssistant(event) {
+    event.preventDefault();
+    setAssistantLoading(true);
+    setAssistantError("");
+
+    try {
+      const response = await fetch("/api/assistant", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: assistantQuestion, rides }),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error ?? "Assistant request failed.");
+      }
+
+      setAssistantReply(data.reply);
+    } catch (error) {
+      setAssistantError(error.message);
+    } finally {
+      setAssistantLoading(false);
+    }
   }
 
   return (
@@ -320,6 +349,27 @@ function App() {
           </label>
           <button type="submit">Publish ride</button>
         </form>
+      </section>
+
+      <section className="assistant-section">
+        <div>
+          <p className="eyebrow">AI ride assistant</p>
+          <h2>Ask about routes, seats, and ride planning.</h2>
+        </div>
+        <form className="assistant-form" onSubmit={askAssistant}>
+          <input
+            type="text"
+            placeholder="Example: Which rides still have seats?"
+            value={assistantQuestion}
+            onChange={(event) => setAssistantQuestion(event.target.value)}
+            required
+          />
+          <button type="submit" disabled={assistantLoading}>
+            {assistantLoading ? "Thinking..." : "Ask assistant"}
+          </button>
+        </form>
+        {assistantError && <p className="form-error">{assistantError}</p>}
+        {assistantReply && <p className="assistant-reply">{assistantReply}</p>}
       </section>
     </main>
   );

@@ -8,7 +8,8 @@
 .topbar,
 .hero-grid,
 .layout,
-.create-section {
+.create-section,
+.assistant-section {
   max-width: 1180px;
   margin: 0 auto;
 }
@@ -93,7 +94,8 @@ button:disabled {
 .hero-panel,
 .search-panel,
 .detail-panel,
-.create-section {
+.create-section,
+.assistant-section {
   border: 1px solid #d8e0eb;
   border-radius: 8px;
   background: white;
@@ -289,6 +291,29 @@ dd {
   padding: 24px;
 }
 
+.assistant-section {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+  padding: 24px;
+}
+
+.assistant-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+}
+
+.assistant-reply {
+  border-left: 4px solid #0f766e;
+  border-radius: 8px;
+  margin: 0;
+  padding: 14px;
+  background: #f8fafc;
+  color: #334155;
+  line-height: 1.6;
+}
+
 .ride-form {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -321,7 +346,8 @@ dd {
   .topbar,
   .hero-grid,
   .layout,
-  .ride-form {
+  .ride-form,
+  .assistant-form {
     grid-template-columns: 1fr;
   }
 
