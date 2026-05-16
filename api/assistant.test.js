@@ -9,6 +9,7 @@ test("assistant endpoint rejects non-post requests", async () => {
 
   await handler({ method: "GET" }, response);
 
+  expect(response.setHeader).toHaveBeenCalledWith("Cache-Control", "no-store");
   expect(response.setHeader).toHaveBeenCalledWith("Allow", "POST");
   expect(response.status).toHaveBeenCalledWith(405);
   expect(response.json).toHaveBeenCalledWith({ error: "Method not allowed" });
