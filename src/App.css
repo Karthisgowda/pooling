@@ -50,6 +50,7 @@ h2 {
 
 button,
 input,
+select,
 textarea {
   font: inherit;
 }
@@ -135,6 +136,7 @@ label {
 }
 
 input,
+select,
 textarea {
   width: 100%;
   box-sizing: border-box;

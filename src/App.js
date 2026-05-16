@@ -36,6 +36,7 @@ function formatDate(date) {
 function App() {
   const [rides, setRides] = useState(loadRides);
   const [query, setQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
   const [activeRideId, setActiveRideId] = useState("");
   const [form, setForm] = useState(emptyForm);
   const [formError, setFormError] = useState("");
@@ -48,17 +49,15 @@ function App() {
   const filteredRides = useMemo(() => {
     const search = query.trim().toLowerCase();
 
-    if (!search) {
-      return rides;
-    }
-
     return rides.filter((ride) => {
-      return [ride.source, ride.destination, ride.driver, ride.vehicle]
+      const matchesStatus = statusFilter === "All" || (ride.status ?? "Open") === statusFilter;
+      const matchesSearch = !search || [ride.source, ride.destination, ride.driver, ride.vehicle]
         .join(" ")
         .toLowerCase()
         .includes(search);
+      return matchesStatus && matchesSearch;
     });
-  }, [query, rides]);
+  }, [query, rides, statusFilter]);
 
   const stats = useMemo(() => {
     const totalSeats = rides.reduce((sum, ride) => sum + Number(ride.seats), 0);
@@ -200,6 +199,13 @@ function App() {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
+          <label htmlFor="status">Status</label>
+          <select id="status" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
+            <option>All</option>
+            <option>Open</option>
+            <option>Full</option>
+            <option>Completed</option>
+          </select>
         </form>
       </section>
 
