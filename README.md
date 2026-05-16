@@ -8,6 +8,7 @@ Pooling is a responsive cab sharing web app for listing rides, booking seats, an
 - Search by source, destination, driver, or vehicle.
 - Filter rides by Open, Full, or Completed status.
 - Sort rides by earliest trip, lowest fare, or most open seats.
+- Clear all active filters with one action.
 - View ride details, fare, seat availability, driver contact, and passengers.
 - Book or cancel a seat in the selected ride.
 - Mark rides completed or delete old rides.
