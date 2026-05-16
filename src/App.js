@@ -459,7 +459,7 @@ function App() {
         {assistantError && <p className="form-error" role="alert">{assistantError}</p>}
         {assistantReply && (
           <div className="assistant-result">
-            <p className="assistant-reply">{assistantReply}</p>
+            <p className="assistant-reply" aria-live="polite">{assistantReply}</p>
             <button className="secondary-button compact-button" type="button" onClick={() => setAssistantReply("")}>
               Clear answer
             </button>
