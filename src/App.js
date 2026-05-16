@@ -163,6 +163,12 @@ function App() {
 
       <section className="layout">
         <div className="ride-list" aria-label="Available rides">
+          {rides.length === 0 && (
+            <div className="empty-state onboarding-state">
+              <strong>No rides published yet.</strong>
+              <span>Create the first cab share using the form below.</span>
+            </div>
+          )}
           {filteredRides.map((ride) => (
             <button
               className={`ride-card ${activeRide?.id === ride.id ? "active" : ""}`}
@@ -175,10 +181,10 @@ function App() {
               <span>{ride.seats - ride.bookedSeats} seats open · Rs. {ride.fare}</span>
             </button>
           ))}
-          {filteredRides.length === 0 && <p className="empty-state">No rides match your search.</p>}
+          {rides.length > 0 && filteredRides.length === 0 && <p className="empty-state">No rides match your search.</p>}
         </div>
 
-        {activeRide && (
+        {activeRide ? (
           <article className="detail-panel">
             <div className="detail-header">
               <div>
@@ -209,6 +215,14 @@ function App() {
                 Cancel one seat
               </button>
             </div>
+          </article>
+        ) : (
+          <article className="detail-panel empty-detail">
+            <p className="eyebrow">Ride details</p>
+            <h2>Publish a ride to begin.</h2>
+            <p className="notes">
+              New rides appear here with seat availability, passenger names, contact details, and booking actions.
+            </p>
           </article>
         )}
       </section>

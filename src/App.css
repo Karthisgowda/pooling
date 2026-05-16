@@ -185,6 +185,20 @@ textarea {
   color: #64748b;
 }
 
+.onboarding-state {
+  display: grid;
+  gap: 6px;
+  background: #ffffff;
+}
+
+.onboarding-state strong {
+  color: #172033;
+}
+
+.empty-detail {
+  min-height: 260px;
+}
+
 .detail-panel {
   padding: 24px;
 }
