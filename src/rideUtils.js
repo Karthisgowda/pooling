@@ -40,6 +40,15 @@ export function createRideShareText(ride) {
   return `${ride.source} to ${ride.destination} on ${ride.date} at ${ride.time}. ${getAvailableSeats(ride)} seats open at Rs. ${ride.fare} per seat.`;
 }
 
+export function hasMatchingRoute(rides, form) {
+  const source = titleCase(form.source);
+  const destination = titleCase(form.destination);
+
+  return rides.some((ride) => {
+    return ride.source === source && ride.destination === destination && ride.date === form.date && ride.time === form.time;
+  });
+}
+
 export function calculateRideStats(rides) {
   const totalSeats = rides.reduce((sum, ride) => sum + Number(ride.seats), 0);
   const bookedSeats = rides.reduce((sum, ride) => sum + Number(ride.bookedSeats), 0);
