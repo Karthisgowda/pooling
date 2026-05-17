@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import { RIDE_STATUSES, SORT_OPTIONS } from "./rideConstants";
-import { calculateRideStats, cleanText, formatDate, getAvailableSeats, getOccupancyPercent, getRideTotalFare, isValidRide, phoneHref, titleCase } from "./rideUtils";
+import { calculateRideStats, cleanText, createRideShareText, formatDate, getAvailableSeats, getOccupancyPercent, getRideTotalFare, isValidRide, phoneHref, titleCase } from "./rideUtils";
 
 const STORAGE_KEY = "pooling-rides";
 
@@ -184,6 +184,10 @@ function App() {
   function deleteRide(rideId) {
     setRides((current) => current.filter((ride) => ride.id !== rideId));
     setActiveRideId("");
+  }
+
+  async function copyRide(ride) {
+    await navigator.clipboard.writeText(createRideShareText(ride));
   }
 
   function clearFilters() {
@@ -382,6 +386,9 @@ function App() {
               </button>
               <button className="secondary-button" type="button" onClick={() => completeRide(activeRide.id)} disabled={activeRide.status === "Completed"}>
                 Mark completed
+              </button>
+              <button className="secondary-button" type="button" onClick={() => copyRide(activeRide)}>
+                Copy ride
               </button>
               <button className="danger-button" type="button" onClick={() => deleteRide(activeRide.id)}>
                 Delete ride
