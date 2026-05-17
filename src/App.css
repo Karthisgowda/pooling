@@ -336,6 +336,12 @@ dd a {
   gap: 12px;
 }
 
+.prompt-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .assistant-reply {
   border-left: 4px solid #0f766e;
   border-radius: 8px;
