@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import { ASSISTANT_PROMPTS, RIDE_STATUSES, SORT_OPTIONS } from "./rideConstants";
-import { calculateRideStats, cleanText, createRideShareText, formatDate, getAvailableSeats, getOccupancyPercent, getPassengerCount, getRideTotalFare, getRouteLabel, hasMatchingRoute, isValidRide, phoneHref, titleCase } from "./rideUtils";
+import { calculateRideStats, cleanText, createExportFileName, createRideShareText, formatDate, getAvailableSeats, getOccupancyPercent, getPassengerCount, getRideTotalFare, getRouteLabel, hasMatchingRoute, isValidRide, phoneHref, titleCase } from "./rideUtils";
 
 const STORAGE_KEY = "pooling-rides";
 const EXPORT_VERSION = 1;
@@ -214,7 +214,7 @@ function App() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "pooling-rides.json";
+    link.download = createExportFileName();
     link.click();
     URL.revokeObjectURL(url);
   }
