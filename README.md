@@ -19,6 +19,7 @@ Pooling is a responsive cab sharing web app for listing rides, booking seats, an
 - Create a new ride with driver, route, date, time, fare, vehicle, phone, and notes.
 - Export locally saved rides as JSON.
 - Import previously exported ride JSON.
+- Clear all locally saved rides when you need a clean board.
 - Ask the Groq-powered assistant questions about current ride availability.
 - Use assistant prompt presets for common ride questions.
 - Responsive layout for desktop and mobile screens.
