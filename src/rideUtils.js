@@ -36,6 +36,10 @@ export function getRideTotalFare(ride) {
   return Number(ride.bookedSeats) * Number(ride.fare);
 }
 
+export function getPassengerCount(ride) {
+  return Array.isArray(ride.passengers) ? ride.passengers.length : 0;
+}
+
 export function createRideShareText(ride) {
   return `${ride.source} to ${ride.destination} on ${ride.date} at ${ride.time}. ${getAvailableSeats(ride)} seats open at Rs. ${ride.fare} per seat.`;
 }
