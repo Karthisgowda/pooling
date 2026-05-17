@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import { RIDE_STATUSES, SORT_OPTIONS } from "./rideConstants";
-import { calculateRideStats, cleanText, createRideShareText, formatDate, getAvailableSeats, getOccupancyPercent, getRideTotalFare, hasMatchingRoute, isValidRide, phoneHref, titleCase } from "./rideUtils";
+import { calculateRideStats, cleanText, createRideShareText, formatDate, getAvailableSeats, getOccupancyPercent, getPassengerCount, getRideTotalFare, hasMatchingRoute, isValidRide, phoneHref, titleCase } from "./rideUtils";
 
 const STORAGE_KEY = "pooling-rides";
 
@@ -350,6 +350,7 @@ function App() {
               <span className="route">{ride.source} to {ride.destination}</span>
               <span>Driver: {ride.driver}</span>
               <span>{formatDate(ride.date)} at {ride.time}</span>
+              <span>{getPassengerCount(ride)} passengers listed</span>
               <span>{getAvailableSeats(ride)} seats open - Rs. {ride.fare}</span>
               <span className={`status-pill ${(ride.status ?? "Open").toLowerCase()}`}>{ride.status ?? "Open"}</span>
             </button>
@@ -374,6 +375,7 @@ function App() {
               <div><dt>Vehicle</dt><dd>{activeRide.vehicle}</dd></div>
               <div><dt>Contact</dt><dd><a href={phoneHref(activeRide.phone)}>{activeRide.phone}</a></dd></div>
               <div><dt>Seats</dt><dd>{activeRide.bookedSeats}/{activeRide.seats} booked</dd></div>
+              <div><dt>Passengers</dt><dd>{getPassengerCount(activeRide)}</dd></div>
               <div><dt>Occupancy</dt><dd>{getOccupancyPercent(activeRide)}%</dd></div>
               <div><dt>Booked fare</dt><dd>Rs. {getRideTotalFare(activeRide)}</dd></div>
             </dl>
