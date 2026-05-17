@@ -44,6 +44,10 @@ export function createRideShareText(ride) {
   return `${ride.source} to ${ride.destination} on ${ride.date} at ${ride.time}. ${getAvailableSeats(ride)} seats open at Rs. ${ride.fare} per seat.`;
 }
 
+export function getRouteLabel(ride) {
+  return `${ride.source} -> ${ride.destination}`;
+}
+
 export function hasMatchingRoute(rides, form) {
   const source = titleCase(form.source);
   const destination = titleCase(form.destination);
