@@ -1,4 +1,4 @@
-import { calculateRideStats, cleanText, createRideShareText, getAvailableSeats, getOccupancyPercent, getPassengerCount, getRideTotalFare, hasMatchingRoute, isValidRide, phoneHref, titleCase } from "./rideUtils";
+import { calculateRideStats, cleanText, createRideShareText, getAvailableSeats, getOccupancyPercent, getPassengerCount, getRideTotalFare, getRouteLabel, hasMatchingRoute, isValidRide, phoneHref, titleCase } from "./rideUtils";
 
 test("normalizes ride text", () => {
   expect(cleanText("  mysuru   road  ")).toBe("mysuru road");
@@ -29,7 +29,7 @@ test("creates clean phone links", () => {
 });
 
 test("creates shareable ride text", () => {
-  expect(createRideShareText({
+  const ride = {
     source: "Mysuru",
     destination: "Bengaluru",
     date: "2026-05-20",
@@ -37,7 +37,10 @@ test("creates shareable ride text", () => {
     seats: 4,
     bookedSeats: 1,
     fare: 250,
-  })).toContain("3 seats open");
+  };
+
+  expect(createRideShareText(ride)).toContain("3 seats open");
+  expect(getRouteLabel(ride)).toBe("Mysuru -> Bengaluru");
 });
 
 test("validates imported ride records", () => {
