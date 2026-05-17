@@ -22,6 +22,16 @@ export function getAvailableSeats(ride) {
   return Number(ride.seats) - Number(ride.bookedSeats);
 }
 
+export function getOccupancyPercent(ride) {
+  const seats = Number(ride.seats);
+
+  if (!seats) {
+    return 0;
+  }
+
+  return Math.round((Number(ride.bookedSeats) / seats) * 100);
+}
+
 export function calculateRideStats(rides) {
   const totalSeats = rides.reduce((sum, ride) => sum + Number(ride.seats), 0);
   const bookedSeats = rides.reduce((sum, ride) => sum + Number(ride.bookedSeats), 0);
