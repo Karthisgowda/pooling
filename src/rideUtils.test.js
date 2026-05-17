@@ -1,4 +1,4 @@
-import { calculateRideStats, cleanText, getAvailableSeats, getOccupancyPercent, getRideTotalFare, isValidRide, phoneHref, titleCase } from "./rideUtils";
+import { calculateRideStats, cleanText, createRideShareText, getAvailableSeats, getOccupancyPercent, getRideTotalFare, isValidRide, phoneHref, titleCase } from "./rideUtils";
 
 test("normalizes ride text", () => {
   expect(cleanText("  mysuru   road  ")).toBe("mysuru road");
@@ -25,6 +25,18 @@ test("calculates ride availability and stats", () => {
 
 test("creates clean phone links", () => {
   expect(phoneHref("+91 98765 43210")).toBe("tel:+919876543210");
+});
+
+test("creates shareable ride text", () => {
+  expect(createRideShareText({
+    source: "Mysuru",
+    destination: "Bengaluru",
+    date: "2026-05-20",
+    time: "09:00",
+    seats: 4,
+    bookedSeats: 1,
+    fare: 250,
+  })).toContain("3 seats open");
 });
 
 test("validates imported ride records", () => {
