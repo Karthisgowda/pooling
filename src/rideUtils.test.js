@@ -1,4 +1,4 @@
-import { calculateRideStats, cleanText, createRideShareText, getAvailableSeats, getOccupancyPercent, getPassengerCount, getRideTotalFare, getRouteLabel, hasMatchingRoute, isValidRide, phoneHref, titleCase } from "./rideUtils";
+import { calculateRideStats, cleanText, createExportFileName, createRideShareText, getAvailableSeats, getOccupancyPercent, getPassengerCount, getRideTotalFare, getRouteLabel, hasMatchingRoute, isValidRide, phoneHref, titleCase } from "./rideUtils";
 
 test("normalizes ride text", () => {
   expect(cleanText("  mysuru   road  ")).toBe("mysuru road");
@@ -26,6 +26,7 @@ test("calculates ride availability and stats", () => {
 
 test("creates clean phone links", () => {
   expect(phoneHref("+91 98765 43210")).toBe("tel:+919876543210");
+  expect(createExportFileName(new Date("2026-05-17T00:00:00.000Z"))).toBe("pooling-rides-2026-05-17.json");
 });
 
 test("creates shareable ride text", () => {
