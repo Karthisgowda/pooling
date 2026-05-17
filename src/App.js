@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import { RIDE_STATUSES, SORT_OPTIONS } from "./rideConstants";
-import { calculateRideStats, cleanText, formatDate, getAvailableSeats, isValidRide, phoneHref, titleCase } from "./rideUtils";
+import { calculateRideStats, cleanText, formatDate, getAvailableSeats, getOccupancyPercent, isValidRide, phoneHref, titleCase } from "./rideUtils";
 
 const STORAGE_KEY = "pooling-rides";
 
@@ -357,6 +357,7 @@ function App() {
               <div><dt>Vehicle</dt><dd>{activeRide.vehicle}</dd></div>
               <div><dt>Contact</dt><dd><a href={phoneHref(activeRide.phone)}>{activeRide.phone}</a></dd></div>
               <div><dt>Seats</dt><dd>{activeRide.bookedSeats}/{activeRide.seats} booked</dd></div>
+              <div><dt>Occupancy</dt><dd>{getOccupancyPercent(activeRide)}%</dd></div>
             </dl>
             <p className="notes">{activeRide.notes}</p>
             <div className="passenger-list">
