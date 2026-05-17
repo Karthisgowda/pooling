@@ -1,4 +1,4 @@
-import { calculateRideStats, cleanText, createRideShareText, getAvailableSeats, getOccupancyPercent, getRideTotalFare, isValidRide, phoneHref, titleCase } from "./rideUtils";
+import { calculateRideStats, cleanText, createRideShareText, getAvailableSeats, getOccupancyPercent, getRideTotalFare, hasMatchingRoute, isValidRide, phoneHref, titleCase } from "./rideUtils";
 
 test("normalizes ride text", () => {
   expect(cleanText("  mysuru   road  ")).toBe("mysuru road");
@@ -52,4 +52,15 @@ test("validates imported ride records", () => {
     fare: 200,
   })).toBe(true);
   expect(isValidRide({ source: "A" })).toBe(false);
+});
+
+test("detects duplicate route timing", () => {
+  expect(hasMatchingRoute([
+    { source: "Mysuru", destination: "Bengaluru", date: "2026-05-20", time: "09:00" },
+  ], {
+    source: "mysuru",
+    destination: "bengaluru",
+    date: "2026-05-20",
+    time: "09:00",
+  })).toBe(true);
 });
