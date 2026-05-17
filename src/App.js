@@ -42,6 +42,7 @@ function App() {
   const [assistantError, setAssistantError] = useState("");
   const [passengerName, setPassengerName] = useState("");
   const [lastUpdated, setLastUpdated] = useState("");
+  const [notice, setNotice] = useState("");
   const activeRide = rides.find((ride) => ride.id === activeRideId) ?? rides[0] ?? null;
 
   useEffect(() => {
@@ -145,6 +146,7 @@ function App() {
       }),
     );
     setPassengerName("");
+    setNotice("Seat booked successfully.");
   }
 
   function cancelSeat(rideId) {
@@ -164,6 +166,7 @@ function App() {
         };
       }),
     );
+    setNotice("Seat booking canceled.");
   }
 
   function completeRide(rideId) {
@@ -179,15 +182,18 @@ function App() {
         };
       }),
     );
+    setNotice("Ride marked as completed.");
   }
 
   function deleteRide(rideId) {
     setRides((current) => current.filter((ride) => ride.id !== rideId));
     setActiveRideId("");
+    setNotice("Ride deleted.");
   }
 
   async function copyRide(ride) {
     await navigator.clipboard.writeText(createRideShareText(ride));
+    setNotice("Ride summary copied.");
   }
 
   function clearFilters() {
@@ -284,6 +290,7 @@ function App() {
           </p>
           <p className="data-note">Ride data is saved privately in this browser.</p>
           {lastUpdated && <p className="updated-note">Last updated: {lastUpdated}</p>}
+          {notice && <p className="notice" role="status">{notice}</p>}
           <div className="stats-row">
             <span><strong>{stats.rides}</strong> rides</span>
             <span><strong>{stats.openRides}</strong> open</span>
