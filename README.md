@@ -15,6 +15,7 @@ Pooling is a responsive cab sharing web app for listing rides, booking seats, an
 - Mark rides completed or delete old rides.
 - Copy a selected ride summary for sharing.
 - See status messages after ride actions.
+- Prevent duplicate rides with the same route, date, and time.
 - Create a new ride with driver, route, date, time, fare, vehicle, phone, and notes.
 - Export locally saved rides as JSON.
 - Import previously exported ride JSON.
