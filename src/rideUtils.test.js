@@ -1,4 +1,4 @@
-import { calculateRideStats, cleanText, getAvailableSeats, isValidRide, phoneHref, titleCase } from "./rideUtils";
+import { calculateRideStats, cleanText, getAvailableSeats, getOccupancyPercent, isValidRide, phoneHref, titleCase } from "./rideUtils";
 
 test("normalizes ride text", () => {
   expect(cleanText("  mysuru   road  ")).toBe("mysuru road");
@@ -12,6 +12,7 @@ test("calculates ride availability and stats", () => {
   ];
 
   expect(getAvailableSeats(rides[0])).toBe(3);
+  expect(getOccupancyPercent(rides[0])).toBe(25);
   expect(calculateRideStats(rides)).toEqual({
     rides: 2,
     openRides: 1,
