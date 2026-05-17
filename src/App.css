@@ -123,6 +123,15 @@ button:disabled {
   font-size: 14px;
 }
 
+.notice {
+  width: fit-content;
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #ecfdf5;
+  color: #047857;
+  font-weight: 800;
+}
+
 .stats-row {
   display: flex;
   flex-wrap: wrap;
