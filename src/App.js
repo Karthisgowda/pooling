@@ -229,6 +229,7 @@ function App() {
           setRides(imported);
           setActiveRideId("");
           setFormError("");
+          setNotice("Ride data imported.");
         } else {
           setFormError("Imported file does not contain valid rides.");
         }
