@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import { ASSISTANT_PROMPTS, RIDE_STATUSES, SORT_OPTIONS } from "./rideConstants";
-import { calculateRideStats, cleanText, createRideShareText, formatDate, getAvailableSeats, getOccupancyPercent, getPassengerCount, getRideTotalFare, hasMatchingRoute, isValidRide, phoneHref, titleCase } from "./rideUtils";
+import { calculateRideStats, cleanText, createRideShareText, formatDate, getAvailableSeats, getOccupancyPercent, getPassengerCount, getRideTotalFare, getRouteLabel, hasMatchingRoute, isValidRide, phoneHref, titleCase } from "./rideUtils";
 
 const STORAGE_KEY = "pooling-rides";
 
@@ -347,7 +347,7 @@ function App() {
               aria-label={`View ride from ${ride.source} to ${ride.destination}`}
               onClick={() => setActiveRideId(ride.id)}
             >
-              <span className="route">{ride.source} to {ride.destination}</span>
+              <span className="route">{getRouteLabel(ride)}</span>
               <span>Driver: {ride.driver}</span>
               <span>{formatDate(ride.date)} at {ride.time}</span>
               <span>{getPassengerCount(ride)} passengers listed</span>
@@ -363,7 +363,7 @@ function App() {
             <div className="detail-header">
               <div>
                 <p className="eyebrow">Selected ride</p>
-                <h2>{activeRide.source} to {activeRide.destination}</h2>
+                <h2>{getRouteLabel(activeRide)}</h2>
               </div>
               <span className="fare">Rs. {activeRide.fare}</span>
             </div>
