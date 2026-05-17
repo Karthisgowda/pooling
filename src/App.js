@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import { RIDE_STATUSES, SORT_OPTIONS } from "./rideConstants";
-import { calculateRideStats, cleanText, createRideShareText, formatDate, getAvailableSeats, getOccupancyPercent, getRideTotalFare, isValidRide, phoneHref, titleCase } from "./rideUtils";
+import { calculateRideStats, cleanText, createRideShareText, formatDate, getAvailableSeats, getOccupancyPercent, getRideTotalFare, hasMatchingRoute, isValidRide, phoneHref, titleCase } from "./rideUtils";
 
 const STORAGE_KEY = "pooling-rides";
 
@@ -103,6 +103,11 @@ function App() {
 
     if (!Number.isFinite(fare) || fare < 1) {
       setFormError("Fare must be a positive amount.");
+      return;
+    }
+
+    if (hasMatchingRoute(rides, form)) {
+      setFormError("A ride with the same route, date, and time already exists.");
       return;
     }
 
