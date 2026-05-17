@@ -48,6 +48,10 @@ export function getRouteLabel(ride) {
   return `${ride.source} -> ${ride.destination}`;
 }
 
+export function createExportFileName(date = new Date()) {
+  return `pooling-rides-${date.toISOString().slice(0, 10)}.json`;
+}
+
 export function hasMatchingRoute(rides, form) {
   const source = titleCase(form.source);
   const destination = titleCase(form.destination);
