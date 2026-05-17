@@ -230,9 +230,10 @@ function App() {
     reader.onload = () => {
       try {
         const imported = JSON.parse(reader.result);
+        const importedRides = Array.isArray(imported) ? imported : imported.rides;
 
-        if (Array.isArray(imported) && imported.every(isValidRide)) {
-          setRides(imported);
+        if (Array.isArray(importedRides) && importedRides.every(isValidRide)) {
+          setRides(importedRides);
           setActiveRideId("");
           setFormError("");
           setNotice("Ride data imported.");
