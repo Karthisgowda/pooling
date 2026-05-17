@@ -36,6 +36,10 @@ export function getRideTotalFare(ride) {
   return Number(ride.bookedSeats) * Number(ride.fare);
 }
 
+export function createRideShareText(ride) {
+  return `${ride.source} to ${ride.destination} on ${ride.date} at ${ride.time}. ${getAvailableSeats(ride)} seats open at Rs. ${ride.fare} per seat.`;
+}
+
 export function calculateRideStats(rides) {
   const totalSeats = rides.reduce((sum, ride) => sum + Number(ride.seats), 0);
   const bookedSeats = rides.reduce((sum, ride) => sum + Number(ride.bookedSeats), 0);
