@@ -4,6 +4,7 @@ import { ASSISTANT_PROMPTS, RIDE_STATUSES, SORT_OPTIONS } from "./rideConstants"
 import { calculateRideStats, cleanText, createRideShareText, formatDate, getAvailableSeats, getOccupancyPercent, getPassengerCount, getRideTotalFare, getRouteLabel, hasMatchingRoute, isValidRide, phoneHref, titleCase } from "./rideUtils";
 
 const STORAGE_KEY = "pooling-rides";
+const EXPORT_VERSION = 1;
 
 const emptyForm = {
   driver: "",
@@ -208,7 +209,7 @@ function App() {
   }
 
   function exportRides() {
-    const payload = JSON.stringify(rides, null, 2);
+    const payload = JSON.stringify({ version: EXPORT_VERSION, rides }, null, 2);
     const blob = new Blob([payload], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
