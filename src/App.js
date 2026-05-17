@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
-import { RIDE_STATUSES, SORT_OPTIONS } from "./rideConstants";
+import { ASSISTANT_PROMPTS, RIDE_STATUSES, SORT_OPTIONS } from "./rideConstants";
 import { calculateRideStats, cleanText, createRideShareText, formatDate, getAvailableSeats, getOccupancyPercent, getPassengerCount, getRideTotalFare, hasMatchingRoute, isValidRide, phoneHref, titleCase } from "./rideUtils";
 
 const STORAGE_KEY = "pooling-rides";
@@ -480,6 +480,13 @@ function App() {
             {assistantLoading ? "Thinking..." : "Ask assistant"}
           </button>
         </form>
+        <div className="prompt-row" aria-label="Assistant prompt presets">
+          {ASSISTANT_PROMPTS.map((prompt) => (
+            <button className="secondary-button compact-button" key={prompt} type="button" onClick={() => setAssistantQuestion(prompt)}>
+              {prompt}
+            </button>
+          ))}
+        </div>
         {assistantError && <p className="form-error" role="alert">{assistantError}</p>}
         {assistantReply && (
           <div className="assistant-result">
