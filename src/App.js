@@ -197,6 +197,12 @@ function App() {
     setNotice("Ride deleted.");
   }
 
+  function clearAllRides() {
+    setRides([]);
+    setActiveRideId("");
+    setNotice("All rides cleared.");
+  }
+
   async function copyRide(ride) {
     await navigator.clipboard.writeText(createRideShareText(ride));
     setNotice("Ride summary copied.");
@@ -509,6 +515,9 @@ function App() {
           </label>
           <button className="secondary-button compact-button" type="button" aria-label="Export rides JSON file" onClick={exportRides} disabled={rides.length === 0}>
             Export rides
+          </button>
+          <button className="danger-button compact-button" type="button" onClick={clearAllRides} disabled={rides.length === 0}>
+            Clear all
           </button>
         </div>
       </footer>
