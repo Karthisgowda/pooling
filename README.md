@@ -60,7 +60,7 @@ npm run build
 
 ## Ride Data
 
-Rides are saved in the current browser. Use the import and export controls in the footer to back up or move ride data between browsers. Export files include a small version marker for future compatibility.
+Rides are saved in the current browser. Use the import and export controls in the footer to back up or move ride data between browsers. Export files include the export date in the filename and a small version marker for future compatibility.
 
 ## Deployment
 
