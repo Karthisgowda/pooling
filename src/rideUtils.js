@@ -32,6 +32,10 @@ export function getOccupancyPercent(ride) {
   return Math.round((Number(ride.bookedSeats) / seats) * 100);
 }
 
+export function getRideTotalFare(ride) {
+  return Number(ride.bookedSeats) * Number(ride.fare);
+}
+
 export function calculateRideStats(rides) {
   const totalSeats = rides.reduce((sum, ride) => sum + Number(ride.seats), 0);
   const bookedSeats = rides.reduce((sum, ride) => sum + Number(ride.bookedSeats), 0);
